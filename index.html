@@ -2,48 +2,584 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Newspings Markets</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-font-family:Arial,sans-serif;
-background:#050d14;
-color:white;
+  font-family:Arial,sans-serif;
+  background:#050d14;
+  color:white;
 }
+.container{width:92%;max-width:1100px;margin:auto}
 
 header{
-padding:25px 5%;
-background:#030a10;
-border-bottom:1px solid #18303a;
+  background:#030a11;
+  border-bottom:1px solid #18303a;
+  padding:22px 0;
 }
-
 .logo{
-font-size:27px;
-font-weight:900;
+  font-size:26px;
+  font-weight:900;
 }
-
-.logo span{
-color:#20dc79;
-}
+.logo span{color:#20dc79}
 
 .hero{
-min-height:650px;
-padding:100px 5%;
-background:
-radial-gradient(circle at 80% 20%,rgba(32,220,121,.16),transparent 35%),
-#050d14;
+  min-height:650px;
+  padding:100px 0;
+  background:
+  radial-gradient(circle at 80% 20%,rgba(32,220,121,.15),transparent 35%),
+  #050d14;
+}
+.badge{
+  display:inline-block;
+  color:#20dc79;
+  border:1px solid #195c3b;
+  padding:10px 18px;
+  border-radius:30px;
+  margin-bottom:30px;
+}
+h1{
+  font-size:60px;
+  line-height:1.05;
+  max-width:750px;
+}
+h1 span{color:#20dc79}
+.hero p{
+  color:#aab6bf;
+  font-size:20px;
+  line-height:1.8;
+  max-width:750px;
+  margin:25px 0;
 }
 
-.badge{
-display:inline-block;
-color:#
+.btn{
+  border:0;
+  padding:16px 25px;
+  border-radius:12px;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.green{background:#20dc79;color:#021008}
+.dark{
+  background:#12212a;
+  color:white;
+  border:1px solid #29404c;
+}
+.actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+section{padding:70px 0}
+.title{text-align:center;margin-bottom:35px}
+.title h2{font-size:36px}
+.title p{color:#9caab3;margin-top:8px}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+.card{
+  background:#091720;
+  border:1px solid #19303a;
+  padding:25px;
+  border-radius:17px;
+}
+.card .big{
+  color:#20dc79;
+  font-size:30px;
+  font-weight:bold;
+}
+.card h3{margin:8px 0}
+.card p{color:#9eabb4}
+
+.market-icon{font-size:32px}
+
+.cta{
+  text-align:center;
+  background:#07131b;
+}
+.cta h2{font-size:38px;margin-bottom:12px}
+.cta p{color:#9cabb4;margin-bottom:20px}
+
+footer{
+  text-align:center;
+  color:#75848e;
+  padding:35px;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.82);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:99999;
+}
+.modal.show{display:flex}
+
+.box{
+  width:100%;
+  max-width:430px;
+  background:#091720;
+  border:1px solid #29414d;
+  border-radius:20px;
+  padding:28px;
+  position:relative;
+}
+.close{
+  position:absolute;
+  right:15px;
+  top:8px;
+  background:none;
+  border:0;
+  color:white;
+  font-size:32px;
+  cursor:pointer;
+}
+.box h2{font-size:27px;margin-bottom:20px}
+
+input{
+  width:100%;
+  padding:14px;
+  margin-bottom:12px;
+  background:#050d14;
+  border:1px solid #29414d;
+  border-radius:10px;
+  color:white;
+  font-size:16px;
+}
+.submit{width:100%;margin-top:5px}
+
+.msg{
+  display:none;
+  padding:12px;
+  margin-top:12px;
+  border-radius:9px;
+  font-size:14px;
+}
+.success{
+  display:block;
+  color:#20dc79;
+  border:1px solid #176c43;
+}
+.error{
+  display:block;
+  color:#ff8b8b;
+  border:1px solid #713838;
+}
+
+.link{
+  text-align:center;
+  margin-top:18px;
+  color:#9cabb4;
+}
+.link button{
+  background:none;
+  border:0;
+  color:#20dc79;
+  font-weight:bold;
+}
+
+@media(max-width:700px){
+  h1{font-size:43px}
+  .hero{padding:70px 0;min-height:auto}
+  .grid{grid-template-columns:1fr}
+  .actions .btn{width:100%}
+  .title h2{font-size:30px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="container">
+  <div class="logo">NEWSPINGS <span>MARKETS</span></div>
+</div>
+</header>
+
+<section class="hero">
+<div class="container">
+
+  <div class="badge">🔥 ÖZEL KAYIT AVANTAJLARI</div>
+
+  <h1>
+    Global Piyasalara<br>
+    <span>Profesyonel Erişim</span>
+  </h1>
+
+  <p>
+    Forex, altın, endeksler, enerji, hisse CFD'leri ve
+    kripto CFD'leri gibi birçok piyasayı tek platform
+    üzerinden takip edin.
+  </p>
+
+  <div class="actions">
+    <button class="btn green"
+      onclick="document.getElementById('register').classList.add('show')">
+      Hesap Aç
+    </button>
+
+    <button class="btn dark"
+      onclick="document.getElementById('login').classList.add('show')">
+      Giriş Yap
+    </button>
+  </div>
+
+</div>
+</section>
+
+<section>
+<div class="container">
+
+<div class="title">
+  <h2>Özel Kayıt Avantajları</h2>
+  <p>Newspings Markets</p>
+</div>
+
+<div class="grid">
+
+<div class="card">
+  <div class="big">1:1000</div>
+  <h3>🚀 Kaldıraç</h3>
+  <p>Uygun hesap ve ürünlerde kaldıraç seçenekleri.</p>
+</div>
+
+<div class="card">
+  <div class="big">%20</div>
+  <h3>🛑 Stop-Out</h3>
+  <p>Risk yönetimi koşullarına göre stop-out seviyesi.</p>
+</div>
+
+<div class="card">
+  <div class="big">%50</div>
+  <h3>💲 Para Yatırma Bonusu</h3>
+  <p>Kampanya şartlarına tabi bonus seçenekleri.</p>
+</div>
+
+<div class="card">
+  <div class="big">MT4</div>
+  <h3>💻 MetaTrader 4</h3>
+  <p>Profesyonel işlem platformu.</p>
+</div>
+
+<div class="card">
+  <div class="big">MT5</div>
+  <h3>📱 MetaTrader 5</h3>
+  <p>Yeni nesil işlem platformu.</p>
+</div>
+
+<div class="card">
+  <div class="big">🛡️</div>
+  <h3>Güvenlik</h3>
+  <p>Güvenli hesap altyapısı.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<section>
+<div class="container">
+
+<div class="title">
+<h2>💳 Para Yatırma & Çekim</h2>
+</div>
+
+<div class="grid">
+<div class="card">🏦 Banka Transferi</div>
+<div class="card">💳 Kredi / Banka Kartı</div>
+<div class="card">📲 Desteklenen E-Cüzdanlar</div>
+<div class="card">💱 Yerel Ödeme Yöntemleri</div>
+<div class="card">₿ Uygun bölgelerde TRC20 / ERC20</div>
+<div class="card">⚡ Hızlı para yatırma seçenekleri</div>
+<div class="card">💸 Hızlı para çekme seçenekleri</div>
+<div class="card">🔐 Güvenli fonlama altyapısı</div>
+</div>
+
+</div>
+</section>
+
+<section>
+<div class="container">
+
+<div class="title">
+<h2>📊 İşlem Yapılabilen Piyasalar</h2>
+</div>
+
+<div class="grid">
+<div class="card"><div class="market-icon">💱</div><h3>Forex</h3></div>
+<div class="card"><div class="market-icon">🥇</div><h3>Altın & Değerli Metaller</h3></div>
+<div class="card"><div class="market-icon">📈</div><h3>Endeksler</h3></div>
+<div class="card"><div class="market-icon">🏢</div><h3>Hisse CFD'leri</h3></div>
+<div class="card"><div class="market-icon">🛢️</div><h3>Petrol & Enerji</h3></div>
+<div class="card"><div class="market-icon">🪙</div><h3>Kripto CFD'leri</h3></div>
+</div>
+
+</div>
+</section>
+
+<section class="cta">
+<div class="container">
+<h2>Newspings Markets</h2>
+<p>Hesabınızı oluşturun ve platformu keşfedin.</p>
+
+<button class="btn green"
+ onclick="document.getElementById('register').classList.add('show')">
+ Hesap Aç
+</button>
+</div>
+</section>
+
+<footer>
+© 2026 Newspings Markets
+</footer>
+
+
+<!-- KAYIT -->
+<div id="register" class="modal">
+<div class="box">
+
+<button class="close"
+ onclick="document.getElementById('register').classList.remove('show')">
+×
+</button>
+
+<h2>Hesap Oluştur</h2>
+
+<form id="registerForm">
+
+<input id="name"
+ type="text"
+ placeholder="Ad Soyad"
+ required>
+
+<input id="phone"
+ type="tel"
+ placeholder="Telefon"
+ required>
+
+<input id="email"
+ type="email"
+ placeholder="E-posta"
+ required>
+
+<input id="password"
+ type="password"
+ placeholder="Şifre (en az 6 karakter)"
+ minlength="6"
+ required>
+
+<button id="registerSubmit"
+ class="btn green submit"
+ type="submit">
+Hesap Oluştur
+</button>
+
+<div id="registerMsg" class="msg"></div>
+
+</form>
+
+<div class="link">
+Zaten hesabınız var mı?
+<button onclick="
+ document.getElementById('register').classList.remove('show');
+ document.getElementById('login').classList.add('show');
+">
+Giriş Yap
+</button>
+</div>
+
+</div>
+</div>
+
+
+<!-- GİRİŞ -->
+<div id="login" class="modal">
+<div class="box">
+
+<button class="close"
+ onclick="document.getElementById('login').classList.remove('show')">
+×
+</button>
+
+<h2>Giriş Yap</h2>
+
+<form id="loginForm">
+
+<input id="loginEmail"
+ type="email"
+ placeholder="E-posta"
+ required>
+
+<input id="loginPassword"
+ type="password"
+ placeholder="Şifre"
+ required>
+
+<button id="loginSubmit"
+ class="btn green submit"
+ type="submit">
+Giriş Yap
+</button>
+
+<div id="loginMsg" class="msg"></div>
+
+</form>
+
+</div>
+</div>
+
+
+<script>
+const SUPABASE_URL =
+"https://gtxwjqjrzulpheljbzkd.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_8-RKfZ2ZQ6PSHzMS2O2ABw_qDYZBDf-";
+
+let db = null;
+
+try {
+  db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+} catch(e) {
+  console.error(e);
+}
+
+
+/* KAYIT */
+document.getElementById("registerForm")
+.addEventListener("submit", async function(e){
+
+  e.preventDefault();
+
+  const msg =
+  document.getElementById("registerMsg");
+
+  const button =
+  document.getElementById("registerSubmit");
+
+  if(!db){
+    msg.className="msg error";
+    msg.textContent="Bağlantı başlatılamadı.";
+    return;
+  }
+
+  button.disabled=true;
+  button.textContent="Kaydediliyor...";
+
+  const fullName =
+  document.getElementById("name").value.trim();
+
+  const phone =
+  document.getElementById("phone").value.trim();
+
+  const email =
+  document.getElementById("email").value.trim();
+
+  const password =
+  document.getElementById("password").value;
+
+  try {
+
+    const {data,error} =
+    await db.auth.signUp({
+      email:email,
+      password:password,
+      options:{
+        data:{
+          full_name:fullName,
+          phone:phone
+        }
+      }
+    });
+
+    if(error) throw error;
+
+    msg.className="msg success";
+    msg.textContent=
+    "Kayıt oluşturuldu. E-postanı kontrol ederek hesabını doğrula.";
+
+  } catch(error) {
+
+    msg.className="msg error";
+    msg.textContent=
+    "Kayıt hatası: " + error.message;
+
+  }
+
+  button.disabled=false;
+  button.textContent="Hesap Oluştur";
+
+});
+
+
+/* GİRİŞ */
+document.getElementById("loginForm")
+.addEventListener("submit", async function(e){
+
+  e.preventDefault();
+
+  const msg =
+  document.getElementById("loginMsg");
+
+  const button =
+  document.getElementById("loginSubmit");
+
+  if(!db){
+    msg.className="msg error";
+    msg.textContent="Bağlantı başlatılamadı.";
+    return;
+  }
+
+  button.disabled=true;
+  button.textContent="Giriş yapılıyor...";
+
+  try {
+
+    const {data,error} =
+    await db.auth.signInWithPassword({
+
+      email:
+      document.getElementById("loginEmail").value.trim(),
+
+      password:
+      document.getElementById("loginPassword").value
+
+    });
+
+    if(error) throw error;
+
+    msg.className="msg success";
+    msg.textContent="Giriş başarılı.";
+
+  } catch(error) {
+
+    msg.className="msg error";
+    msg.textContent=
+    "Giriş hatası: " + error.message;
+
+  }
+
+  button.disabled=false;
+  button.textContent="Giriş Yap";
+
+});
+</script>
+
+</body>
+</html>
