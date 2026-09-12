@@ -4,223 +4,125 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Newspings Markets</title>
-<meta name="description" content="Newspings Markets - Global piyasalara erişim">
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-font-family:Arial,Helvetica,sans-serif;
-background:#050b12;
-color:#fff;
-line-height:1.6
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
-a{text-decoration:none;color:inherit}
-.container{width:92%;max-width:1180px;margin:auto}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#050d14;
+  color:#fff;
+  line-height:1.6;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.container{
+  width:min(1120px,92%);
+  margin:auto;
+}
+
+/* HEADER */
 
 header{
-position:sticky;top:0;z-index:50;
-background:rgba(5,11,18,.95);
-border-bottom:1px solid #1c2b39;
-backdrop-filter:blur(10px)
+  background:#030a11;
+  border-bottom:1px solid #14232d;
+  position:sticky;
+  top:0;
+  z-index:100;
 }
+
 .nav{
-height:76px;display:flex;align-items:center;
-justify-content:space-between
+  min-height:78px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
 }
+
 .logo{
-font-size:24px;font-weight:900;letter-spacing:1px
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:.5px;
 }
-.logo span{color:#20d878}
-nav{display:flex;gap:25px;align-items:center}
-nav a{color:#c8d3dc;font-size:14px}
-nav a:hover{color:#20d878}
+
+.logo span{
+  color:#20dc79;
+}
+
+nav{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+nav a{
+  color:#aebbc5;
+  padding:9px 10px;
+  font-size:14px;
+}
+
+nav a:hover{
+  color:#20dc79;
+}
+
+/* BUTTON */
 
 .btn{
-border:0;border-radius:8px;padding:13px 22px;
-font-weight:700;cursor:pointer;font-size:14px
+  border:0;
+  border-radius:12px;
+  padding:13px 20px;
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s;
 }
-.btn-green{background:#20d878;color:#04110a}
-.btn-dark{background:#101b26;color:#fff;border:1px solid #2b3c4d}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn-green{
+  background:#20dc79;
+  color:#031008;
+}
+
+.btn-dark{
+  background:#101c25;
+  color:#fff;
+  border:1px solid #263944;
+}
+
+/* HERO */
 
 .hero{
-padding:90px 0 70px;
-background:
-radial-gradient(circle at 80% 20%,rgba(32,216,120,.15),transparent 35%),
-linear-gradient(180deg,#07111a,#050b12)
+  padding:100px 0 70px;
+  background:
+    radial-gradient(circle at 75% 20%,rgba(32,220,121,.15),transparent 35%),
+    linear-gradient(180deg,#07131c,#050d14);
 }
+
 .hero-grid{
-display:grid;grid-template-columns:1.2fr .8fr;
-gap:50px;align-items:center
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:50px;
+  align-items:center;
 }
+
 .badge{
-display:inline-block;
-border:1px solid #24543e;
-background:#0a2118;
-color:#20d878;
-padding:7px 12px;border-radius:20px;
-font-size:12px;margin-bottom:20px
-}
-h1{font-size:56px;line-height:1.05;margin-bottom:22px}
-h1 span{color:#20d878}
-.hero p{color:#aab8c5;font-size:18px;max-width:650px}
-.actions{display:flex;gap:12px;margin-top:30px}
-
-.hero-card{
-background:#0c151e;
-border:1px solid #243443;
-border-radius:18px;padding:28px;
-box-shadow:0 20px 60px rgba(0,0,0,.3)
-}
-.hero-card h3{margin-bottom:20px}
-.market{
-display:flex;justify-content:space-between;
-padding:14px 0;border-bottom:1px solid #1c2b38
-}
-.market:last-child{border:0}
-.up{color:#20d878}
-
-section{padding:75px 0}
-.section-title{text-align:center;margin-bottom:40px}
-.section-title h2{font-size:35px}
-.section-title p{color:#8fa0af;margin-top:8px}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px
-}
-.card{
-background:#0b141d;
-border:1px solid #1d2d3b;
-border-radius:15px;
-padding:25px
-}
-.card .icon{font-size:30px;margin-bottom:12px}
-.card h3{margin-bottom:8px}
-.card p{color:#91a1ae;font-size:14px}
-
-.highlight{
-background:#09151d;
-border-top:1px solid #1b2b38;
-border-bottom:1px solid #1b2b38
-}
-.highlight-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px
-}
-.stat{
-text-align:center;padding:20px
-}
-.stat strong{font-size:30px;color:#20d878;display:block}
-.stat span{color:#9aa9b5;font-size:13px}
-
-.list{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:14px
-}
-.list-item{
-background:#0b141d;border:1px solid #1d2d3b;
-padding:18px;border-radius:12px
-}
-.list-item strong{display:block;margin-bottom:4px}
-.list-item span{color:#8fa0ad;font-size:14px}
-
-.cta{
-text-align:center;
-background:linear-gradient(135deg,#0c2419,#08131c);
-border:1px solid #1d4733;
-border-radius:20px;padding:55px 25px
-}
-.cta h2{font-size:38px;margin-bottom:10px}
-.cta p{color:#9eafa9;margin-bottom:25px}
-
-footer{
-border-top:1px solid #1c2b39;
-padding:30px 0;color:#71818e;font-size:13px
-}
-
-.modal{
-display:none;position:fixed;inset:0;
-background:rgba(0,0,0,.75);
-z-index:100;
-align-items:center;justify-content:center;
-padding:20px
-}
-.modal.active{display:flex}
-.modal-box{
-width:100%;max-width:440px;
-background:#0b151e;
-border:1px solid #2a3b49;
-border-radius:18px;padding:28px;
-position:relative
-}
-.close{
-position:absolute;right:18px;top:12px;
-font-size:28px;color:#7d8d99;cursor:pointer
-}
-.modal h2{margin-bottom:20px}
-input{
-width:100%;padding:14px;margin-bottom:12px;
-border-radius:8px;border:1px solid #2a3b49;
-background:#071019;color:#fff;
-outline:none
-}
-input:focus{border-color:#20d878}
-.form-btn{width:100%;margin-top:5px}
-.message{
-display:none;margin-top:15px;padding:12px;
-border-radius:8px;background:#0b2b1c;
-color:#20d878;font-size:13px
-}
-.error{
-display:none;margin-top:15px;padding:12px;
-border-radius:8px;background:#351519;
-color:#ff7d86;font-size:13px
-}
-
-@media(max-width:800px){
-nav{display:none}
-.hero-grid{grid-template-columns:1fr}
-h1{font-size:42px}
-.grid,.highlight-grid{grid-template-columns:1fr}
-.list{grid-template-columns:1fr}
-}
-</style>
-</head>
-
-<body>
-
-<header>
-<div class="container nav">
-<div class="logo">NEWSPINGS <span>MARKETS</span></div>
-
-<nav>
-<a href="#piyasalar">Piyasalar</a>
-<a href="#avantajlar">Avantajlar</a>
-<a href="#fonlama">Para Yatırma</a>
-<button class="btn btn-dark" onclick="openModal('loginModal')">Giriş Yap</button>
-<button class="btn btn-green" onclick="openModal('registerModal')">Hesap Aç</button>
-</nav>
-</div>
-</header>
-
-<section class="hero">
-<div class="container hero-grid">
-
-<div>
-<div class="badge">🔥 ÖZEL KAYIT AVANTAJLARI</div>
-
-<h1>Global Piyasalara<br><span>Profesyonel Erişim</span></h1>
-
-<p>
-Forex, altın, endeksler, enerji, hisse CFD'leri ve kripto CFD'leri
-gibi birçok piyasayı tek platform üzerinden takip edin.
-</p>
-
-<div class="actions">
-<button class="btn btn-green" onclick="openModal('registerModal')">
-Hesap Aç
-</button>
+  display:inline-block;
+  padding:9px 17px;
+  border:1px solid rgba(32,220,121,.35
