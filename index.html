@@ -1358,6 +1358,54 @@ document.querySelectorAll(".nav-links a").forEach(function(link){
 });
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+const newspingsSupabase = window.supabase.createClient(
+  "https://gtxwjqjrzulpheljbzkd.supabase.co",
+  sb_publishable_...
+);
+
+window.demoSubmit = async function(event, messageId) {
+  event.preventDefault();
+
+  const form = event.target;
+
+  const emailInput = form.querySelector('input[type="email"]');
+  const passwordInput = form.querySelector('input[type="password"]');
+  const phoneInput = form.querySelector('input[type="tel"]');
+  const textInputs = form.querySelectorAll('input[type="text"]');
+
+  const email = emailInput ? emailInput.value.trim() : "";
+  const password = passwordInput ? passwordInput.value : "";
+  const phone = phoneInput ? phoneInput.value.trim() : "";
+  const fullName = textInputs.length ? textInputs[0].value.trim() : "";
+
+  if (!email || !password) {
+    alert("E-posta ve şifre zorunludur.");
+    return;
+  }
+
+  const { data, error } = await newspingsSupabase.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+      data: {
+        full_name: fullName,
+        phone: phone
+      },
+      emailRedirectTo: window.location.origin
+    }
+  });
+
+  if (error) {
+    alert("Kayıt başarısız: " + error.message);
+    return;
+  }
+
+  alert("Kayıt başarılı! E-posta adresinize doğrulama bağlantısı gönderildi.");
+  form.reset();
+};
+</script>
 </body>
 </html>
